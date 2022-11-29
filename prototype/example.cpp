@@ -88,6 +88,7 @@ int main()
 {
     auto tea_factory = make_unique<TeaFactory>();
     {   // Adjust the recipe of black_tea_1 and check the difference.
+        // when cloning, it won't block since we use "copy" instead of "create".
         auto black_tea_1 = tea_factory->cloneTea(TeaType::BLACK_TEA);
         auto black_tea_2 = tea_factory->cloneTea(TeaType::BLACK_TEA);
         black_tea_1->adjustRecipe(50, 100);
