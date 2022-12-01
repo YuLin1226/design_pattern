@@ -26,9 +26,17 @@ class House
         }
         void printHouseInfo()
         {
-            cout << "This house contains ";
+            int bedRoom{0}, livingRoom{0}, bathRoom{0};
             for(auto it=rooms_.begin(); it!=rooms_.end(); it++)
-                cout << "\n - " << *it;
+            {
+                if(*it == "bedRoom") bedRoom++;
+                if(*it == "livingRoom") livingRoom++;
+                if(*it == "bathRoom") bathRoom++;
+            }
+            cout << "This house contains\n"
+                 << " - " << bedRoom << " bedroom\n"
+                 << " - " << livingRoom << " living room\n"
+                 << " - " << bathRoom << " bathroom\n";
         }
 };
 class ApartmentBuilder : public IHouseBuilder
@@ -42,15 +50,15 @@ class ApartmentBuilder : public IHouseBuilder
         }
         void buildBedRoom() const override
         {
-            house_->addRoom("bedroom");
+            house_->addRoom("bedRoom");
         }
         void buildLivingRoom() const override
         {
-            house_->addRoom("living room");
+            house_->addRoom("livingRoom");
         }
         void buildBathRoom() const override
         {
-            house_->addRoom("bathroom");
+            house_->addRoom("bathRoom");
         }
         shared_ptr<House> getHouse()
         {
@@ -90,13 +98,15 @@ class HouseDirector
 void buildNewHouses(shared_ptr<HouseDirector> director)
 {
     auto apartment_builder = make_shared<ApartmentBuilder>();
-    apartment_builder->startBuildingNewHouse();
-    director->setBuilder(apartment_builder);
-    director->buildHouseWithBedRoom(2);
-    director->buildHouseWithLivingRoom(1);
-    director->buildHouseWithBathRoom(3);
-    auto house = apartment_builder->getHouse();
-    house->printHouseInfo();
+    {   // User-defined house.
+        apartment_builder->startBuildingNewHouse();
+        director->setBuilder(apartment_builder);
+        director->buildHouseWithBedRoom(2);
+        // director->buildHouseWithLivingRoom(0);
+        director->buildHouseWithBathRoom(1);
+        auto house = apartment_builder->getHouse();
+        house->printHouseInfo();
+    }
 }
 int main()
 {
