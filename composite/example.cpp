@@ -37,7 +37,7 @@ class UnpackedProduct : public ProductComposite
             return price_;
         }
 };
-int main()
+shared_ptr<ProductComposite> makeNewProduct()
 {   // price = 2 box + 3 product = 2 + 300 = 302.
     auto package = make_shared<PackedProduct>(1);
     auto unpacked_product_1 = make_shared<UnpackedProduct>(100);
@@ -48,6 +48,11 @@ int main()
     packed_product_1->addProduct(unpacked_product_3);
     package->addProduct(unpacked_product_1);
     package->addProduct(packed_product_1);
-    printf("Package price: %f", package->getPrice());
+    return package;
+}
+int main()
+{   
+    auto product = makeNewProduct();
+    printf("Product price: %f", product->getPrice());
     return 0;
 }
