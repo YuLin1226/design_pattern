@@ -7,8 +7,8 @@ class I_LogHandler
 {
     public:
         enum LogLevel{INFO, WARN, ERROR, FATAL};
-        virtual shared_ptr<I_LogHandler> setNextLogHandler(shared_ptr<I_LogHandler> handler) = 0;
-        virtual void logMessage(int level, std::string message) = 0;
+        virtual shared_ptr<I_LogHandler> setNextLogHandler(shared_ptr<I_LogHandler> handler)=0;
+        virtual void logMessage(int level, std::string message)=0;
 };
 class LoggerHandler : public I_LogHandler
 {
@@ -72,7 +72,7 @@ class FatalLoggerHandler : public LoggerHandler
                 LoggerHandler::logMessage(level, message);
         }
 };
-class LogSystem
+class LogSystem : public LoggerHandler
 {
     private:
         shared_ptr<LoggerHandler> default_logger_;
@@ -99,9 +99,9 @@ int main()
 {
     auto Logger = make_shared<LogSystem>();
     string message = "I am groot.";
-    Logger->LogMessage(LoggerHandler::INFO, message);
-    Logger->LogMessage(LoggerHandler::WARN, message);
-    Logger->LogMessage(LoggerHandler::ERROR, message);
-    Logger->LogMessage(LoggerHandler::FATAL, message);
+    Logger->LogMessage(LogSystem::LogLevel::INFO, message);
+    Logger->LogMessage(LogSystem::LogLevel::WARN, message);
+    Logger->LogMessage(LogSystem::LogLevel::ERROR, message);
+    Logger->LogMessage(LogSystem::LogLevel::FATAL, message);
     return 0;
 }
