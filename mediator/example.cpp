@@ -94,10 +94,11 @@ class ConcreteMediator : public Mediator
             }
         }
 };
-
 void clientTest()
 {
+    // create mediator
     auto m = make_shared<ConcreteMediator>();
+    // create components
     auto ap1 = make_shared<Airplane>();
     ap1->setMediator(m);
     auto ap2 = make_shared<Airplane>();
@@ -106,11 +107,12 @@ void clientTest()
     ap3->setMediator(m);
     auto tower = make_shared<AirTrafficControlTower>();
     tower->setMediator(m);
+    // add components into mediator's network.
     m->addAirplane(ap1);
     m->addAirplane(ap2);
     m->addAirplane(ap3);
     m->setATCTower(tower);
-
+    // do actions.
     ap1->prepareLanding();
     ap2->prepareLanding();
 }
