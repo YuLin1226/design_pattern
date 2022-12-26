@@ -18,6 +18,9 @@ class Element
         virtual void accept(shared_ptr<Visitor> visitor) = 0;
 };
 
+// If we don't add public beform "enable_shared_from_this",
+// this will be considered private inheritance, hence throwing bad_weak_ptr.
+// class DataElement : public Element, enable_shared_from_this<DataElement>
 class DataElement : public Element, public enable_shared_from_this<DataElement>
 {
     private:
